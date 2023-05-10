@@ -509,12 +509,12 @@ $$
 \tag{1-11}
 $$
 
-> **Lemma 1.** (Holder's inequality) Suppose $a_1,a_2,...,a_n,b_1,b_2,...,b_n \ge 0$ and $\frac{1}{p}+\frac{1}{q}=1,\quad p,q>1$. We have
+> **Lemma 1-1.** (Holder's inequality) Suppose $a_1,a_2,...,a_n,b_1,b_2,...,b_n \ge 0$ and $\frac{1}{p}+\frac{1}{q}=1,\quad p,q>1$. We have
 > $$
 > (a_1b_1+a_2b_2+...+a_nb_n)^{1/p} \le (\sum a_i^p)^{1/p}(\sum b_i^q)^{1/q}
 > $$
 
-> **Lemma 2.** ($k$ moment of origin of normal distribution) Suppose $x \sim N(0,\sigma^2)$. We have
+> **Lemma 1-2.** ($k$ moment of origin of normal distribution) Suppose $x \sim N(0,\sigma^2)$. We have
 > $$
 > \mathbb E(x^{2n+1})=(2n)!!·\sigma^{2n}, \quad n=1,2,3,...
 > $$
@@ -565,9 +565,106 @@ Here we achieve an error rate of the form $O(\frac{\alpha}{\sqrt n}+\frac{1}{\sq
 
 
 
-**Proof for Theorem 1**
+**Proof for Theorem 1:**
+
+Suppose that there are $m$ workers and $q$ of them are Byzantine workers where $q=m·\alpha$. They store $n$ adversarial data. For normal workers, each of them stores $n$ one-dimensional data $x \sim D$ where $\mu= \mathbb E[x],\sigma^2=Var(x)$. And $x^{i,j}$ represents the $i$-th worker's $k$-th data sample, $\bar {x}^i$ is the average of the $i$-th worker's data.
+
+Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1(\bar {x}^i \le z)$, we have the following result on it:
+
+> **Lemma 2-1.** Suppose that for a fixed $t > 0$, we have
+> $$
+> \alpha + \sqrt{\frac{t}{m(1-\alpha)}} + 0.4748 \frac{\gamma(x)}{\sqrt n} \ge 1/2 - \epsilon
+> $$
+> for some $\epsilon > 0$. Then with the probability at least $1-4e^{-2t}$, we have
+> $$
+> \hat p(\mu + C_{\epsilon}\frac{\sigma}{\sqrt n}(\alpha + \sqrt {\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma(x)}{\sqrt n})) \ge 1/2 + \alpha
+> $$
+> and 
+> $$
+> \hat p(\mu - C_{\epsilon}\frac{\sigma}{\sqrt n}(\alpha + \sqrt {\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma(x)}{\sqrt n})) \ge 1/2 - \alpha
+> $$
+> where $C_\epsilon$ is defined in **Theorem 1.**
+
+> **Lemma 2-2.** (Berry-Essen Theorem). Assume that $Y_1,Y_2,...,Y_n$ are i.i.d. copies of a random variable $Y$ with mean $\mu$, variance $\sigma^2$, and such that $\mathbb E[|Y-\mu|^3] < \infty$. Then,
+> $$
+> \sup_{s \in R}|\mathbb P\{\sqrt n\frac{\bar Y-\mu}{\sigma} \le s\} - \Phi(s)| \le 0.4748\frac{\mathbb E[|Y-\mu|^3]}{\sigma^3 \sqrt n}
+> $$
+> where $\Phi(s)$ is the cumulative distribution function of the standard normal random variable.
+
+> **Lemma 2-3.** (Bounded Difference Inequality). Let $X_1,...,X_n$ be i.i.d. random variables, and assume that $Z=g(x_1,x_2,...,x_n)$ where $g$ satisfies that for all $j \in [n]$ and all $x_1,...,x_j,x_j',...,x_n$,
+> $$
+> |g(x_1,...,x_{j-1},x_j,x_{j+1}...x_n)-g(x_1,...,x_{j-1},x_j',x_{j+1}...x_n)| \le c_j
+> $$
+> Then for any $t \ge 0$,
+> $$
+> \mathbb P\{Z-\mathbb E[Z] \ge t\} \le \exp(-\frac{2t^2}{\sum_j c_j^2})
+> $$
+> and
+> $$
+> \mathbb P\{Z-\mathbb E[Z] \le t\} \le \exp(-\frac{2t^2}{\sum_j c_j^2})
+> $$
+
+Let $\sigma_n = \frac{\sigma}{\sqrt n}$ and $c_n=0.4748\frac{\gamma(x)}{\sqrt n}$. Define $W_i=\frac{\bar x^i-\mu}{\sigma_n}$ for all $i \in [m]$, and $\Phi_n(·)$ be the distribution function of $W_i$ for any $i \in [m]$. We also define the empirical distribution function of $\{W_i: i \in [m] \}$ as $\hat \Phi _n(z)=\frac{1}{m(1-\alpha)}\sum_{i \in [m] \backslash B} \mathbb l(W_i \le z)$. Thus we have
+$$
+\hat \Phi _n(z) = \hat p(\sigma_n z + \mu)
+\tag{2-1}
+$$
+We know that for any $z \in \mathbb R, \mathbb E[\hat \Phi_n(z)]=\Phi(z)$. Since the bounded difference inequality is satisfied with $c_j=\frac{1}{m(1-\alpha)}$, we have for any $t>0$,
+$$
+|\hat \Phi_n(z)-\Phi_n(z)| \le \sqrt {\frac{t}{m(1-\alpha)}}
+\tag{2-2}
+$$
+with the probability a least $1-2e^{-2t}$. Let $z_1 \ge z_2$ be such that $\Phi_n(z_1) \ge \frac{1}{2}+\alpha +\sqrt{\frac{t}{m(1-\alpha)}}$ and $\Phi_n(z_2) \le \frac{1}{2}-\alpha -\sqrt{\frac{t}{m(1-\alpha)}}$. By union bound, we know that with probability at least $1-4e^{-2t}$, $\Phi_n(z_1) \ge \frac{1}{2}+\alpha$ and $\Phi_n(z_2) \le \frac{1}{2}-\alpha$.
+
+According to **Lemma 2-2**, we know that
+$$
+\Phi_n(z_1) \ge \Phi(z_1)-c_n
+\tag{2-3}
+$$
+it suffices to find $z_1$ such that
+$$
+\Phi(z_1)=\frac{1}{2}+\alpha+\sqrt{\frac{t}{m(1-\alpha)}} + c_n
+\tag{2-4}
+$$
+By mean of value theorem, we know that there exists $\xi \in [0,z_1]$ such that
+$$
+\alpha + \sqrt{\frac{t}{m(1-\alpha)}}+c_n=z_1\Phi'(\xi)=\frac{z_1}{\sqrt{2\pi}}e^{-\frac{\xi ^2}{2}} \ge \frac{z_1}{\sqrt{2\pi}}e^{-\frac{z_1 ^2}{2}}
+\tag{2-5}
+$$
+Suppose that for some fix constant  $\epsilon \in (0,1/2)$, we have
+$$
+\alpha +\sqrt{\frac{t}{m(1-\alpha)}}+c_n \le \frac{1}{2} - \epsilon
+\tag{2-6}
+$$
+Then we know that $z_1 \le \Phi^{-1}(1-\epsilon)$ and thus we have
+$$
+\alpha +\sqrt{\frac{t}{m(1-\alpha)}}+c_n \ge \frac{z_1}{\sqrt{2\pi}} \exp(-\frac{1}{2}(\Phi^{-1}(1-\epsilon))^2)
+\tag{2-7}
+$$
+which yields
+$$
+z_1 \le \sqrt{2\pi} \exp(-\frac{1}{2}(\Phi^{-1}(1-\epsilon))^2)(\alpha +\sqrt{\frac{t}{m(1-\alpha)}}+c_n)
+\tag{2-8}
+$$
+Similarily,
+$$
+z_2 \ge -\sqrt{2\pi} \exp(-\frac{1}{2}(\Phi^{-1}(1-\epsilon))^2)(\alpha +\sqrt{\frac{t}{m(1-\alpha)}}+c_n)
+\tag{2-9}
+$$
+For simplicity, let $C_\epsilon=\sqrt{2\pi} \exp(-\frac{1}{2}(\Phi^{-1}(1-\epsilon))^2)$. We conclude that with probability $1-4e^{-2t}$, we have
+$$
+\widetilde{p}\left(\mu+C_{\epsilon} \sigma_{n}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+c_{n}\right)\right) \geq \frac{1}{2}+\alpha
+\tag{2-10}
+$$
+and
+$$
+\widetilde{p}\left(\mu-C_{\epsilon} \sigma_{n}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+c_{n}\right)\right) \leq \frac{1}{2}-\alpha
+\tag{2-11}
+$$
 
 ---------------
+
+**Proof for convergence:**
 
 We now proceed to show the convergence: in the $t$-th iteration, we define
 $$
@@ -590,13 +687,20 @@ $$
 ||w^t-\eta \nabla F(w^t) - w^*||^2_2=||w^t-w^*||_2^2-2\eta \langle w^t-w^*,\nabla F(w^t) \rangle + \eta^2||\nabla F(w^t)||_2^2
 \tag{3-4}
 $$
-By the co-coercivity of strongly convex functions, we obtain
+then we obtain
 $$
 \langle w^t-w^*, \nabla F(w^t) \rangle \ge \frac{L_F \lambda_F}{L_F + \lambda_F}||w^t-w^*||_2^2 + \frac{1}{L_F+\lambda_F}||\nabla F(w^t)||_2^2
 \tag{3-5}
 $$
 
-Let $\eta = 1/L_F$, we get
+where we use $\nabla F(w^*)=0$ and **Lemma 3-1**.
+
+> **Lemma 3-1**  Suppose $f(x)$ is $L$-smooth $m$-strongly convex function, we have
+> $$
+> [\nabla f(x) - \nabla f(y)]^T(x-y) \ge \frac{mL}{m+L}||x - y||^2 + \frac{1}{m+L}||\nabla f(x) - \nabla f(y)||^2
+> $$
+
+Let $\eta = 1/L_F$, combining equation 3-4 and 3-5, we get
 $$
 ||w^t - \eta \nabla F(w^t)-w^*||_2^2 \le (1-\frac{2\lambda _F}{L_F+\lambda_F})||w^t-w^*||_2^2-\frac{2}{L_F(L_F+\lambda_F)}||\nabla F(w^t)||_2^2+\frac{1}{L_F^2}||\nabla F(w^t)||^2_2 \\
 \le (1-\frac{2\lambda_F}{L_F+\lambda_F})||w^t-w^*||_2^2 \qquad (\lambda_F \le L_F)
@@ -604,7 +708,7 @@ $$
 $$
 Using the fact $\sqrt{1-x} \le 1-x/2$, we get
 $$
-||w^t -\eta \nabla F(w^t) -w^*||_2 \le (1-\frac{\lambda_F}{L_F+\lambda_F})||w^t-w^*||_2 + \frac{1}{L_F}\Delta
+||w^t -\eta \nabla F(w^t) -w^*||_2 \le (1-\frac{\lambda_F}{L_F+\lambda_F})||w^t-w^*||_2
 \tag{3-7}
 $$
 Combining equation 3-3 and 3-7, we have
@@ -612,7 +716,7 @@ $$
 ||w^{t+1}-w^*||_2 \le (1-\frac{\lambda_F}{L_F+\lambda_F})||w^t-w^*||_2+\frac{1}{L_F}\Delta
 \tag{3-8}
 $$
-where $\Delta= \frac{2\sqrt 2}{nm}+\sqrt {\frac{2}{n}} C_\epsilon V(\alpha+\sqrt{\frac{d \log(1+nm\hat L D)}{m(1-\alpha)}}+0.4748\frac{S}{\sqrt n})$
+where $\Delta=||g(w^t)-\nabla F(w^t)||_2 =\frac{2\sqrt 2}{nm}+\sqrt {\frac{2}{n}} C_\epsilon V(\alpha+\sqrt{\frac{d \log(1+nm\hat L D)}{m(1-\alpha)}}+0.4748\frac{S}{\sqrt n})$
 
 
 
