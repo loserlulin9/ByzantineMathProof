@@ -559,6 +559,18 @@ with $\Phi^{-1}(·)$ being the inverse of the cumulative distribution function o
 
 
 
+**Extra Definition 1:**
+
+Meanwhile, we define
+$$
+g^i(w)=\nabla F_i(w) \qquad i\in [m] \backslash B
+$$
+and the coordinate-wise median of $g^i(w)$:
+$$
+g(w)=\text {med}\{g^i(w): i \in [m] \}
+$$
+
+
 **Corollary 1.** When $C_\epsilon \approx 4,\epsilon=6$, after $T\ge \frac{L_F+\lambda_F}{\lambda_F}\log (\frac{\lambda_F}{2\Delta}||w^0-w^*||_2)$ parallel iterations, with high probability we can obtain $\hat w=w^T$ with error $||\hat w-w^*||_2 \le \frac{4}{\lambda_F}\Delta$.
 
 Here we achieve an error rate of the form $O(\frac{\alpha}{\sqrt n}+\frac{1}{\sqrt {nm}}+\frac{1}{n})$.
@@ -573,7 +585,8 @@ Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1
 
 > **Lemma 2-1.** Suppose that for a fixed $t > 0$, we have
 > $$
-> \alpha + \sqrt{\frac{t}{m(1-\alpha)}} + 0.4748 \frac{\gamma(x)}{\sqrt n} \ge 1/2 - \epsilon
+> \alpha + \sqrt{\frac{t}{m(1-\alpha)}} + 0.4748 \frac{\gamma(x)}{\sqrt n} \le 1/2 - \epsilon
+> \tag{i}
 > $$
 > for some $\epsilon > 0$. Then with the probability at least $1-4e^{-2t}$, we have
 > $$
@@ -581,7 +594,7 @@ Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1
 > $$
 > and 
 > $$
-> \hat p(\mu - C_{\epsilon}\frac{\sigma}{\sqrt n}(\alpha + \sqrt {\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma(x)}{\sqrt n})) \ge 1/2 - \alpha
+> \hat p(\mu - C_{\epsilon}\frac{\sigma}{\sqrt n}(\alpha + \sqrt {\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma(x)}{\sqrt n})) \le 1/2 - \alpha
 > $$
 > where $C_\epsilon$ is defined in **Theorem 1.**
 
@@ -603,6 +616,8 @@ Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1
 > $$
 > \mathbb P\{Z-\mathbb E[Z] \le t\} \le \exp(-\frac{2t^2}{\sum_j c_j^2})
 > $$
+
+**Proof for Lemma 2-1:**
 
 Let $\sigma_n = \frac{\sigma}{\sqrt n}$ and $c_n=0.4748\frac{\gamma(x)}{\sqrt n}$. Define $W_i=\frac{\bar x^i-\mu}{\sigma_n}$ for all $i \in [m]$, and $\Phi_n(·)$ be the distribution function of $W_i$ for any $i \in [m]$. We also define the empirical distribution function of $\{W_i: i \in [m] \}$ as $\hat \Phi _n(z)=\frac{1}{m(1-\alpha)}\sum_{i \in [m] \backslash B} \mathbb l(W_i \le z)$. Thus we have
 $$
@@ -661,6 +676,88 @@ $$
 \widetilde{p}\left(\mu-C_{\epsilon} \sigma_{n}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+c_{n}\right)\right) \leq \frac{1}{2}-\alpha
 \tag{2-11}
 $$
+
+**Proof for the main part of Theorem 1:**
+
+We further define the distribution function of all the $m$ machines as $\hat p(z):=\frac{1}{m}\sum_{i \in [m]} \mathbb l(\bar{x} \leq z)$. We have the following direct corollary on $\hat p(z)$ and the median of means estimator $\text{med} \{\bar x^i:i\in [m]\}$.
+
+
+
+**Corollary 2.** Suppose that **Lemma 2-1-(i)** is satisfied. Then, with the probability at least $1-4e^{-2t}$, we have equation 2-10 and 2-11. Thus, we have with probability at least $1-4e^{-2t}$,
+$$
+|\text{med}\{\bar x^i:i\in [m] \} - \mu | \le C_{\epsilon} \frac{\sigma}{\sqrt n}(\alpha + \sqrt{\frac{t}{m(1-\alpha)}}+ 0.4748\frac{\gamma(x)}{\sqrt n})
+\tag{2-12}
+$$
+
+
+**Lemma 2-1** and **Corollary 2** can be translated to the estimators of the gradients. Define $g^i(w)$ and $g(w)$ as in **Extra Definition 1**. In addition, for any $w \in W, k \in [d], z\in \mathbb R$, we define the empirical distribution function of the $k$-th coordinate of the gradients on the normal machines:
+$$
+\hat p(z;w,k)=\frac{1}{m(1-\alpha)}\sum_{i\in [m]\backslash B} \mathbb l(g^i_k(w)\le z)
+\tag{2-13}
+$$
+and on all the $m$ machines
+$$
+\hat p(z;w,k)=\frac{1}{m}\sum_{i=1} \mathbb l(g^i_k(w)\le z)
+\tag{2-14}
+$$
+We use the symbol $\partial_k$ to denote the partial derivative of any function with respect to its $k$-th argument. We also use the simplified notations $\sigma_k^2(w)=\text{Var}(\partial_k f(w;z))$, and $\gamma_k(w)=\gamma(\partial_k f(w;z))$. Then, according to **Lemma 2-1-(i)**, for any fixed $w \in W$ and $k \in [d]$, we have with probability at least $1-4e^{-2t}$
+$$
+\widetilde{p}\left(\partial_{k} F(\mathbf{w})+C_{\epsilon} \frac{\sigma_{k}(\mathbf{w})}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_{k}(\mathbf{w})}{\sqrt{n}}\right) ; \mathbf{w}, k\right) \geq \frac{1}{2}+\alpha
+\tag{2-15}
+$$
+and 
+$$
+\widetilde{p}\left(\partial_{k} F(\mathbf{w})-C_{\epsilon} \frac{\sigma_{k}(\mathbf{w})}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_{k}(\mathbf{w})}{\sqrt{n}}\right) ; \mathbf{w}, k\right) \leq \frac{1}{2}-\alpha
+\tag{2-16}
+$$
+Further, according to **Corollary 2**, we know that with probability $1-4e^{-2t}$,
+$$
+\left|g_k(\mathbf{w})-\partial_k F(\mathbf{w})\right| \leq C_\epsilon \frac{\sigma_k(\mathbf{w})}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_k(\mathbf{w})}{\sqrt{n}}\right)
+\tag{2-17}
+$$
+Equation 2-17 gives a bound on the accuracy of the median of means estimator for the gradient at any fixed $w$ and any coordinate $k \in [d]$. To extend this result to all $w \in W$ and all the $d$ coordinates, we need to use union bound and a covering net argument.
+
+Let $W_\delta=\{w^1,w^2,...,w^{N_\delta}\}$ be a finite subset of $W$ such that for any $w \in W$, there exists $w^l \in W_\delta$ such that $||w^l-w||_2 \le \delta$. According to the standard covering net results, we know that $N_\delta \le (1+\frac{D}{\delta})^d$. By a union bound, we know that with probability at least $1-4dN_\delta e^{-2t}$, the bounds in equation 2-15 and 2-16 hold for all $w=w^l \in W_\delta, k\in[d]$. By gathering all the $k$ coordinates and using **Assumption 2**, we know that for all $w^l \in W_\delta$
+$$
+\left\|\mathbf{g}\left(\mathbf{w}^{\ell}\right)-\nabla F\left(\mathbf{w}^{\ell}\right)\right\|_2 \leq \frac{C_\epsilon}{\sqrt{n}} V\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{S}{\sqrt{n}}\right)
+\tag{2-18}
+$$
+Then consider an arbitrary $w \in W$. Suppose that $||w^l-w||_2 \le \delta$. Since by **Prerequisites (ii)**, we assume that for each $k \in [d]$, the partial derivative $\partial_k f(w;z)$ is $L_k$-Lipschitz for all $z$, we know that for every normal machine $i \in [m] \backslash B$
+$$
+|g^i_k(w)-g^i_k(w^l)| \le L_k\delta
+\tag{2-19}
+$$
+Then according to the equation 2-14, we know that for any $z\in \mathbb R,\hat p(z+l_k\delta;w,k) \ge \hat p(z;w,k)$ and $z\in \mathbb R,\hat p(z-l_k\delta;w,k) \le \hat p(z;w,k)$. Then the bounds in equation 2-15 and 2-16 yield
+$$
+\widetilde{p}\left(\partial_k F\left(\mathbf{w}^{\ell}\right)+L_k \delta+C_\epsilon \frac{\sigma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\right) ; \mathbf{w}, k\right) \geq \frac{1}{2}+\alpha
+\tag{2-20}
+$$
+and
+$$
+\widetilde{p}\left(\partial_k F\left(\mathbf{w}^{\ell}\right)-L_k \delta+C_\epsilon \frac{\sigma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\right) ; \mathbf{w}, k\right) \leq \frac{1}{2}-\alpha
+\tag{2-21}
+$$
+Using the fact that $\partial_k F(w^l)-\partial_k F(w) \le L_k \delta$, and **Corollary 2**, we have
+$$
+\left|g_k(\mathbf{w})-\partial_k F(\mathbf{w})\right| \leq 2 L_k \delta+C_\epsilon \frac{\sigma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\right)
+\tag{2-22}
+$$
+Again, by gathering all the $k$ coordinates we get
+$$
+\|\mathbf{g}(\mathbf{w})-\nabla F(\mathbf{w})\|_2^2 \leq 8 \delta^2 \sum_{k=1}^d L_k^2+2 \frac{C_\epsilon^2}{n} \sum_{k=1}^d \sigma_k^2\left(\mathbf{w}^{\ell}\right)\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{\gamma_k\left(\mathbf{w}^{\ell}\right)}{\sqrt{n}}\right)^2
+\tag{2-23}
+$$
+where we use the fact that $(a+b)^2 \le 2(a^2+b^2)$. Then by **Assumption 1,2**, we further obtain
+$$
+\|\mathbf{g}(\mathbf{w})-\nabla F(\mathbf{w})\|_2 \leq 2 \sqrt{2} \delta \widehat{L}+\sqrt{2} \frac{C_\epsilon}{\sqrt{n}} V\left(\alpha+\sqrt{\frac{t}{m(1-\alpha)}}+0.4748 \frac{S}{\sqrt{n}}\right)
+\tag{2-24}
+$$
+where we use the fact $\sqrt {a+b} \le \sqrt a + \sqrt b$. Combining equation 2-18 and 2-24, we conclude that for any $\delta > 0$, with probability at least $1-4dN_\delta e^{-2t}$, equation 2-24 hold for all $w \in W$. We simply choose $\delta = \frac{1}{nm\hat L}$ and $t=d\log(1+nm\hat LD)$. Then, we know that with probability at least $1-\frac{4d}{(1+nm\hat L D)^d}$, we have
+$$
+\|\mathbf{g}(\mathbf{w})-\nabla F(\mathbf{w})\|_2 \leq 2 \sqrt{2} \frac{1}{n m}+\sqrt{2} \frac{C_\epsilon}{\sqrt{n}} V\left(\alpha+\sqrt{\frac{d \log (1+n m \widehat{L} D)}{m(1-\alpha)}}+0.4748 \frac{S}{\sqrt{n}}\right)
+\tag{2-25}
+$$
+ for all $w \in W$.
 
 ---------------
 
