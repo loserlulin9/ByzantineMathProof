@@ -624,7 +624,13 @@ $$
 \hat \Phi _n(z) = \hat p(\sigma_n z + \mu)
 \tag{2-1}
 $$
-We know that for any $z \in \mathbb R, \mathbb E[\hat \Phi_n(z)]=\Phi(z)$. Since the bounded difference inequality is satisfied with $c_j=\frac{1}{m(1-\alpha)}$, we have for any $t>0$,
+> **Lemma 2-4** (Empirical distribution function, EDF) The EDF $F_n(x)$ of the sample $\{x_1,...,x_n\}$ can be represented as
+> $$
+> F_n(x)=\frac{1}{N}\sum_{i=1}^{n} \mathbb I(x_i \le x)
+> $$
+> It represents the fraction of sample whose value is less than variable $x$.
+
+We know that for any $z \in \mathbb R, \mathbb E[\hat \Phi_n(z)]=\Phi(z)$. Since the **Lemma 2-3** is satisfied with $c_j=\frac{1}{m(1-\alpha)}$, we have for any $t>0$,
 $$
 |\hat \Phi_n(z)-\Phi_n(z)| \le \sqrt {\frac{t}{m(1-\alpha)}}
 \tag{2-2}
