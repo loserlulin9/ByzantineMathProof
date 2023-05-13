@@ -581,7 +581,7 @@ Here we achieve an error rate of the form $O(\frac{\alpha}{\sqrt n}+\frac{1}{\sq
 
 Suppose that there are $m$ workers and $q$ of them are Byzantine workers where $q=m·\alpha$. They store $n$ adversarial data. For normal workers, each of them stores $n$ one-dimensional data $x \sim D$ where $\mu= \mathbb E[x],\sigma^2=Var(x)$. And $x^{i,j}$ represents the $i$-th worker's $k$-th data sample, $\bar {x}^i$ is the average of the $i$-th worker's data.
 
-Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1(\bar {x}^i \le z)$, we have the following result on it:
+Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1(\bar {x}^i \le z)$, which represents the fraction of normal workers whose average value is less than given variable $z$, we have the following result on it:
 
 > **Lemma 2-1.** Suppose that for a fixed $t > 0$, we have
 > $$
@@ -628,7 +628,7 @@ $$
 > $$
 > F_n(x)=\frac{1}{N}\sum_{i=1}^{n} \mathbb I(x_i \le x)
 > $$
-> It represents the fraction of sample whose value is less than variable $x$.
+> which represents the fraction of sample whose value is less than variable $x$.
 
 We know that for any $z \in \mathbb R, \mathbb E[\hat \Phi_n(z)]=\Phi(z)$. Since the **Lemma 2-3** is satisfied with $c_j=\frac{1}{m(1-\alpha)}$, we have for any $t>0$,
 $$
