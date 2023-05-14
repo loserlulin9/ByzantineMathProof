@@ -840,11 +840,4 @@ where $\Delta=||g(w^t)-\nabla F(w^t)||_2 =\frac{2\sqrt 2}{nm}+\sqrt {\frac{2}{n}
 
 
 
-
-
-
-
-
-
-
-
+to test git.
