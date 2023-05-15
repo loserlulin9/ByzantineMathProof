@@ -583,7 +583,7 @@ Suppose that there are $m$ workers and $q$ of them are Byzantine workers where $
 
 Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1(\bar {x}^i \le z)$, which represents the fraction of normal workers whose average value is less than given variable $z$, we have the following result on it:
 
-> **Lemma 2-1.** Suppose that for a fixed $t > 0$, we have
+> **Unproven Lemma 2-1.** Suppose that for a fixed $t > 0$, we have
 > $$
 > \alpha + \sqrt{\frac{t}{m(1-\alpha)}} + 0.4748 \frac{\gamma(x)}{\sqrt n} \le 1/2 - \epsilon
 > \tag{i}
@@ -610,12 +610,13 @@ Suppose $\hat{p}(z):=\frac{1}{m(1-\alpha)}\sum_{i \in [m]\backslash B} \mathbb 1
 > $$
 > Then for any $t \ge 0$,
 > $$
-> \mathbb P\{Z-\mathbb E[Z] \ge t\} \le \exp(-\frac{2t^2}{\sum_j c_j^2})
+> \mathbb P\{Z-\mathbb E[Z] \ge t\} \le \exp(-\frac{2t^2}{\sum_{j=1}^n c_j^2})
 > $$
 > and
 > $$
-> \mathbb P\{Z-\mathbb E[Z] \le t\} \le \exp(-\frac{2t^2}{\sum_j c_j^2})
+> \mathbb P\{Z-\mathbb E[Z] \le t\} \le \exp(-\frac{2t^2}{\sum_{j=1}^n c_j^2})
 > $$
+> This inequality represents the probability of the distance between $Z$ and $\mathbb E[z]$.
 
 **Proof for Lemma 2-1:**
 
@@ -628,14 +629,19 @@ $$
 > $$
 > F_n(x)=\frac{1}{N}\sum_{i=1}^{n} \mathbb I(x_i \le x)
 > $$
-> which represents the fraction of sample whose value is less than variable $x$.
+> which represents the fraction of samples whose value is less than variable $x$.
 
 We know that for any $z \in \mathbb R, \mathbb E[\hat \Phi_n(z)]=\Phi(z)$. Since the **Lemma 2-3** is satisfied with $c_j=\frac{1}{m(1-\alpha)}$, we have for any $t>0$,
 $$
 |\hat \Phi_n(z)-\Phi_n(z)| \le \sqrt {\frac{t}{m(1-\alpha)}}
-\tag{2-2}
+\tag{2-2-1}
 $$
-with the probability a least $1-2e^{-2t}$. Let $z_1 \ge z_2$ be such that $\Phi_n(z_1) \ge \frac{1}{2}+\alpha +\sqrt{\frac{t}{m(1-\alpha)}}$ and $\Phi_n(z_2) \le \frac{1}{2}-\alpha -\sqrt{\frac{t}{m(1-\alpha)}}$. By union bound, we know that with probability at least $1-4e^{-2t}$, $\Phi_n(z_1) \ge \frac{1}{2}+\alpha$ and $\Phi_n(z_2) \le \frac{1}{2}-\alpha$.
+with the probability a least $1-2e^{-2t}$, because we have:
+$$
+P\{|\hat \Phi_n(z)-\Phi_n(z)| \le \sqrt {\frac{t}{m(1-\alpha)}}\} \ge 1-2\exp(-\frac{\frac{-2t}{m(1-\alpha)}}{\frac{m}{m^2(1-\alpha^2)}}) = 1-2\exp(\frac{-2t}{(1-\alpha)}) \ge 1-2e^{-2t}
+\tag{2-2-2}
+$$
+Let $z_1 \ge z_2$ be such that $\Phi_n(z_1) \ge \frac{1}{2}+\alpha +\sqrt{\frac{t}{m(1-\alpha)}}$ and $\Phi_n(z_2) \le \frac{1}{2}-\alpha -\sqrt{\frac{t}{m(1-\alpha)}}$. By union bound, we know that with probability at least $1-4e^{-2t}$, $\hat \Phi_n(z_1) \ge \frac{1}{2}+\alpha$ and $\hat \Phi_n(z_2) \le \frac{1}{2}-\alpha$.
 
 According to **Lemma 2-2**, we know that
 $$
@@ -694,7 +700,6 @@ $$
 |\text{med}\{\bar x^i:i\in [m] \} - \mu | \le C_{\epsilon} \frac{\sigma}{\sqrt n}(\alpha + \sqrt{\frac{t}{m(1-\alpha)}}+ 0.4748\frac{\gamma(x)}{\sqrt n})
 \tag{2-12}
 $$
-
 
 **Lemma 2-1** and **Corollary 2** can be translated to the estimators of the gradients. Define $g^i(w)$ and $g(w)$ as in **Extra Definition 1**. In addition, for any $w \in W, k \in [d], z\in \mathbb R$, we define the empirical distribution function of the $k$-th coordinate of the gradients on the normal machines:
 $$
@@ -824,12 +829,6 @@ where $\Delta=||g(w^t)-\nabla F(w^t)||_2 =\frac{2\sqrt 2}{nm}+\sqrt {\frac{2}{n}
 
 
 
-
-
-
-
-
-
 ### 2.5 Results
 
 **Result 1.** For Median-based GD: error rate is $O(\frac{\alpha}{\sqrt n}+\frac{1}{\sqrt{nm}}+\frac{1}{n})$, order-optimal for strongly convex loss if $n\gtrsim m$.
@@ -839,5 +838,3 @@ where $\Delta=||g(w^t)-\nabla F(w^t)||_2 =\frac{2\sqrt 2}{nm}+\sqrt {\frac{2}{n}
 **Result 3.** For Median-based one-round algorithm: error rate is $O(\frac{\alpha}{\sqrt n}+\frac{1}{\sqrt{nm}}+\frac{1}{n})$, order-optimal for strongly convex quadratic loss if $n\gtrsim m$.
 
 
-
-to test git.
